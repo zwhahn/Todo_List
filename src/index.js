@@ -1,5 +1,3 @@
-import { format, compareAsc } from "date-fns";
-
 projectDict = {'default':[]};
 
 function createTodo (title, description="", dueDate="", priority="", completeStatus="Incomplete", project="default") {
@@ -64,6 +62,17 @@ function addToProjectDict (todoObj) {
     projectDict[todoObj.getProject()].push(todoObj);
 }
 
+function getTodoByTitle (projectName, todoTitle) {
+    // Check if project exists
+    if (checkIfProjectExists(projectName)) {
+        const project = projectDict[projectName];
+        return project.find(todo => todo.getTitle() === todoTitle);
+    }
+
+    return "Project does not exist"
+    
+}
+
 
 const todo1 = createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
 const todo2 = createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium');
@@ -82,4 +91,5 @@ updateProject(todo1, 'BigNewProject') // change update project
 console.log(todo1.getProject());
 addToProjectDict(todo2);
 console.log(projectDict['default'][0].getTitle()); // returns 'Read book'
-console.log(projectDict['default'][todo2].getTitle()); // returns error
+// console.log(projectDict['default'][todo2].getTitle()); // returns error
+console.log(getTodoByTitle('default', 'Read book')); // returns todo object with that title
