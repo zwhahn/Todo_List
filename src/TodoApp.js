@@ -37,10 +37,10 @@ export const TodoApp = (function() {
 
     function createProject (newProjectName) {
         if (checkIfProjectExists(newProjectName)) {
-            return "Error: Project name already exists";
+            return false;
         } else {
             projectDict[newProjectName] = []
-            return "Project created";
+            return;
         }
     }
 
@@ -62,7 +62,7 @@ export const TodoApp = (function() {
         }
     }
 
-    function addToProjectDict (todoObj) {
+    function addTodoToProject (todoObj) {
         projectDict[todoObj.getProject()].push(todoObj);
     }
 
@@ -80,14 +80,23 @@ export const TodoApp = (function() {
         return projectDict;
     }
 
+    function getProjectTodoItems (project) {
+        var todoList = []
+        for (const todo in projectDict[project]) {
+            todoList.push(todo)
+        }
+        return todoList;
+    }
+
     return {
         createTodo,
         createProject,
         updateProject,
         checkIfProjectExists,
-        addToProjectDict,
+        addTodoToProject,
         getTodoByTitle,
-        getAllProjects
+        getAllProjects,
+        getProjectTodoItems
     };
 
 })();
