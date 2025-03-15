@@ -29,7 +29,7 @@ export const TodoApp = (function() {
         }
 
         const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, changeCompleteStatus, getProject, changeProject};
-        addToProjectDict(todoObj);
+        addTodoToProject(todoObj);
         
         return todoObj;
     }
@@ -47,7 +47,7 @@ export const TodoApp = (function() {
     function updateProject(todoObj, projectName) {
         if (checkIfProjectExists(projectName)) {
             todoObj.changeProject(projectName);
-            addToProjectDict(todoObj);
+            addTodoToProject(todoObj);
         }
         else {
             return "Error: Project does not exist"
@@ -114,9 +114,9 @@ export const TodoApp = (function() {
 // console.log(updateProject(todo1, 'BigNewProject'));  // error project does not exist
 // createProject('BigNewProject'); // create project
 // updateProject(todo1, 'BigNewProject') // change update project
-// // addToProjectDict(todo1);  //add todo to project dict
+// // addTodoToProject(todo1);  //add todo to project dict
 // console.log(todo1.getProject());
-// addToProjectDict(todo2);
+// addTodoToProject(todo2);
 // console.log(projectDict['default'][0].getTitle()); // returns 'Read book'
 // // console.log(projectDict['default'][todo2].getTitle()); // returns error
 // console.log(getTodoByTitle('default', 'Read book')); // returns todo object with that title
