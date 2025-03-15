@@ -11,6 +11,13 @@ addProjectBtn.addEventListener('click', () => {
     showProjectList()
 })
 
+const addTaskBtn = document.getElementById("add-task-btn");
+addTaskBtn.addEventListener('click', () => {
+    const dialog = document.querySelector("dialog")
+    updateModalSelectOptions();
+    dialog.showModal();
+})
+
 const projectList = document.getElementById("project-list");
 function showProjectList() {
     // Clear project list
@@ -48,6 +55,21 @@ function showTodoList(project) {
     })
 }
 
+// Update project drop down list dynamically
+function updateModalSelectOptions() {
+    const projectSelection = document.getElementById("projectSelection");
+    // Clear existing options
+    projectSelection.innerHTML = '';
+    
+    for (const projectName in TodoApp.getAllProjects()) {
+        console.log(projectName)
+
+        const projectOption = document.createElement('option');
+        projectOption.value = projectName;
+        projectOption.textContent = projectName;
+        projectSelection.appendChild(projectOption);
+    };
+}
 
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
 const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium');
