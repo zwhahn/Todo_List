@@ -1,6 +1,8 @@
 import "./styles.css";
 import { TodoApp } from "./TodoApp.js";
 
+var currentProject = 'default'
+
 const addProjectBtn = document.getElementById("add-project-btn");
 addProjectBtn.addEventListener('click', () => {
     const newProjectName = prompt('Enter new project name');
@@ -13,8 +15,20 @@ addProjectBtn.addEventListener('click', () => {
 
 const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener('click', () => {
+    const form = document.getElementById("new-task-form");
     const dialog = document.querySelector("dialog")
     updateModalSelectOptions();
+    
+    const taskSubmitBtn = document.getElementById("task-submit-btn");
+    taskSubmitBtn.addEventListener('click', function(e) {
+        e.preventDefault(); //Stop page refresh
+        if (form.reportValidity()){
+            getData(form);
+            form.reset();
+            dialog.close();
+        };
+    });
+
     dialog.showModal();
 })
 
@@ -38,6 +52,7 @@ function showProjectList() {
 function changeProjectTitle(project) {
     const projectTitle = document.getElementById("project-title");
     projectTitle.textContent = project;
+    currentProject = project;
 }
 
 const taskList = document.getElementById("task-list");
@@ -62,13 +77,26 @@ function updateModalSelectOptions() {
     projectSelection.innerHTML = '';
     
     for (const projectName in TodoApp.getAllProjects()) {
-        console.log(projectName)
-
         const projectOption = document.createElement('option');
         projectOption.value = projectName;
         projectOption.textContent = projectName;
+        if (projectName === currentProject) {
+            projectOption.selected = "selected";
+        }
         projectSelection.appendChild(projectOption);
     };
+}
+
+function getData(form) {
+    var formData = new FormData(form);
+    const formDataObject = Object.fromEntries(formData);
+    TodoApp.createTodo(formDataObject.title,
+        formDataObject.description,
+        formDataObject.dueDate,
+        formDataObject.priority,
+        formDataObject.completeStatus,
+        formDataObject.projectSelection
+    );
 }
 
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
@@ -82,4 +110,5 @@ TodoApp.createProject('Places to Eat');
 const todo3 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium', 'Incomplete', 'Cleaning');
 showProjectList();
 
-showTodoList('default')
+showTodoList(currentProject);
+changeProjectTitle(currentProject); 
