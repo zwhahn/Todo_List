@@ -81,11 +81,7 @@ export const TodoApp = (function() {
     }
 
     function getProjectTodoItems (project) {
-        var todoList = []
-        for (const todo in projectDict[project]) {
-            todoList.push(todo)
-        }
-        return todoList;
+        return projectDict[project];
     }
 
     return {
