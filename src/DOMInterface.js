@@ -76,11 +76,24 @@ function showTodoList(project) {
     // Get todo objects
     const todoItems = TodoApp.getProjectTodoItems(project); 
     todoItems.forEach(todoItem => {
-        console.log(todoItem.getTitle());
+        const todoTitle = todoItem.getTitle();
+        console.log(todoTitle);
         const todoListItem = document.createElement("li");
-        todoListItem.textContent = todoItem.getTitle();
+        const todoTask = document.createElement("div");
+
+        // Delete project button
+        const todoDeleteBtn = document.createElement("button");
+        todoDeleteBtn.innerText = 'Delete';
+        todoDeleteBtn.addEventListener("click", () => {
+            taskDeletion(currentProject, todoItem);
+        })
+
+        todoTask.textContent = todoTitle;
+        todoListItem.appendChild(todoTask);
+        todoListItem.appendChild(todoDeleteBtn);
         taskList.appendChild(todoListItem);
-    })
+
+    });
 }
 
 // Update project drop down list dynamically
@@ -127,12 +140,23 @@ function projectDeletion(project) {
     showTodoList(currentProject);
 }
 
+function taskDeletion(currentProject, todoObj) {
+    const todoTitle = todoObj.getTitle();
+    console.log(TodoApp.deleteTodo(currentProject, todoTitle));
+    showTodoList(currentProject);
+}
+
 function createNewProject() {
     TodoApp.createProject('New Project');
     currentProject = 'New Project';
     showTodoList(currentProject);
     showProjectList();
 }
+
+function openTaskEditDialogue() {
+    const dialog = document.querySelector('dialog');
+    const form = document.getElementById('new-task-form')
+} 
 
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
 const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium');
@@ -142,7 +166,7 @@ TodoApp.createProject('Cleaning');
 TodoApp.createProject('Groceries');
 TodoApp.createProject('Chores');
 TodoApp.createProject('Places to Eat');
-const todo3 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium', 'Incomplete', 'Cleaning');
+const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', '2025-02-26', 'Medium', 'Incomplete', 'Cleaning');
 showProjectList();
 
 showTodoList(currentProject); 

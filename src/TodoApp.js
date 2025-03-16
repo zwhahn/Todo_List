@@ -88,8 +88,15 @@ export const TodoApp = (function() {
         delete projectDict[project];
     }
 
-    function deleteTodo () {
-        pass
+    function deleteTodo (projectName, todoTitle) {
+        // Check if project exists
+        if (checkIfProjectExists(projectName)) {
+            // Filter out tasks by name
+            projectDict[projectName] = projectDict[projectName].filter(todo => todo.getTitle() !== todoTitle);
+            return projectDict[projectName];
+        }
+
+        return "Project does not exist"
     }
 
     return {
@@ -101,7 +108,8 @@ export const TodoApp = (function() {
         getTodoByTitle,
         getAllProjects,
         getProjectTodoItems,
-        deleteProject
+        deleteProject,
+        deleteTodo
     };
 
 })();
