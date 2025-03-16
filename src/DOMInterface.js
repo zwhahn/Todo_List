@@ -41,16 +41,16 @@ function showProjectList() {
         console.log(project);
         const projectListItem = document.createElement("li");
         const projectTitle = document.createElement("div");
+
+        // Delete project button
         const projectDeleteBtn = document.createElement("button");
         projectDeleteBtn.innerText = 'Delete';
         projectDeleteBtn.addEventListener("click", () => {
-            console.log(project);
-            TodoApp.deleteProject(project);
-            showProjectList();
+            projectDeletion(project)
         })
+     
         projectTitle.textContent = project;
         projectTitle.addEventListener('click', function() {
-            changeProjectTitle(this.textContent);
             showTodoList(this.textContent);
         }); 
         projectListItem.appendChild(projectTitle);
@@ -70,6 +70,8 @@ const taskList = document.getElementById("task-list");
 function showTodoList(project) {
     // Clear todo list
     taskList.textContent = '';
+
+    changeProjectTitle(project);
 
     // Get todo objects
     const todoItems = TodoApp.getProjectTodoItems(project); 
@@ -111,6 +113,27 @@ function getData(form) {
     );
 }
 
+function projectDeletion(project) {
+    TodoApp.deleteProject(project);
+    showProjectList();
+    currentProject = Object.keys(TodoApp.getAllProjects())[0];
+    console.log("Current Project: " + currentProject);
+
+    // Handle empty project list
+    if (currentProject === undefined) {
+        createNewProject();
+        return;
+    }
+    showTodoList(currentProject);
+}
+
+function createNewProject() {
+    TodoApp.createProject('New Project');
+    currentProject = 'New Project';
+    showTodoList(currentProject);
+    showProjectList();
+}
+
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
 const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium');
 
@@ -122,5 +145,4 @@ TodoApp.createProject('Places to Eat');
 const todo3 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium', 'Incomplete', 'Cleaning');
 showProjectList();
 
-showTodoList(currentProject);
-changeProjectTitle(currentProject); 
+showTodoList(currentProject); 
