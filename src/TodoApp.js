@@ -84,6 +84,14 @@ export const TodoApp = (function() {
         return projectDict[project];
     }
 
+    function deleteProject (project) {
+        delete projectDict[project];
+    }
+
+    function deleteTodo () {
+        pass
+    }
+
     return {
         createTodo,
         createProject,
@@ -92,7 +100,8 @@ export const TodoApp = (function() {
         addTodoToProject,
         getTodoByTitle,
         getAllProjects,
-        getProjectTodoItems
+        getProjectTodoItems,
+        deleteProject
     };
 
 })();

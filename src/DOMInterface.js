@@ -40,11 +40,21 @@ function showProjectList() {
     for (const project in TodoApp.getAllProjects()) {
         console.log(project);
         const projectListItem = document.createElement("li");
-        projectListItem.textContent = project;
-        projectListItem.addEventListener('click', function() {
+        const projectTitle = document.createElement("div");
+        const projectDeleteBtn = document.createElement("button");
+        projectDeleteBtn.innerText = 'Delete';
+        projectDeleteBtn.addEventListener("click", () => {
+            console.log(project);
+            TodoApp.deleteProject(project);
+            showProjectList();
+        })
+        projectTitle.textContent = project;
+        projectTitle.addEventListener('click', function() {
             changeProjectTitle(this.textContent);
             showTodoList(this.textContent);
         }); 
+        projectListItem.appendChild(projectTitle);
+        projectListItem.appendChild(projectDeleteBtn);
         projectList.appendChild(projectListItem);    
     }
     return
