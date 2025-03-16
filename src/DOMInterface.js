@@ -8,9 +8,9 @@ addProjectBtn.addEventListener('click', () => {
     const newProjectName = prompt('Enter new project name');
     // Tell user why project creation failed
     if (TodoApp.createProject(newProjectName) == false){
-        alert('Project name already exists')
+        alert('Project name already exists');
     };
-    showProjectList()
+    showProjectList();
 })
 
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -26,6 +26,7 @@ addTaskBtn.addEventListener('click', () => {
             getData(form);
             form.reset();
             dialog.close();
+            showTodoList(currentProject);
         };
     });
 
@@ -80,6 +81,7 @@ function updateModalSelectOptions() {
         const projectOption = document.createElement('option');
         projectOption.value = projectName;
         projectOption.textContent = projectName;
+        // Default project is the current project
         if (projectName === currentProject) {
             projectOption.selected = "selected";
         }
