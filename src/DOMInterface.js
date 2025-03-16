@@ -16,7 +16,8 @@ addProjectBtn.addEventListener('click', () => {
 const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener('click', () => {
     const form = document.getElementById("new-task-form");
-    const dialog = document.querySelector("dialog")
+    const dialog = document.querySelector("dialog");
+    form.reset();
     updateModalSelectOptions();
     
     const taskSubmitBtn = document.getElementById("task-submit-btn");
@@ -81,16 +82,23 @@ function showTodoList(project) {
         const todoListItem = document.createElement("li");
         const todoTask = document.createElement("div");
 
-        // Delete project button
+        // Delete todo button
         const todoDeleteBtn = document.createElement("button");
         todoDeleteBtn.innerText = 'Delete';
         todoDeleteBtn.addEventListener("click", () => {
             taskDeletion(currentProject, todoItem);
         })
 
+        const editTaskBtn = document.createElement("button");
+        editTaskBtn.innerText = 'Edit';
+        editTaskBtn.addEventListener('click', () => {
+            openTaskEditDialogue(todoItem);
+        })
+
         todoTask.textContent = todoTitle;
         todoListItem.appendChild(todoTask);
         todoListItem.appendChild(todoDeleteBtn);
+        todoListItem.appendChild(editTaskBtn);
         taskList.appendChild(todoListItem);
 
     });
@@ -153,20 +161,46 @@ function createNewProject() {
     showProjectList();
 }
 
-function openTaskEditDialogue() {
-    const dialog = document.querySelector('dialog');
-    const form = document.getElementById('new-task-form')
+function openTaskEditDialogue(todoObj) {
+    const editForm = document.getElementById("new-task-form");
+    const editDialog = document.querySelector("dialog")
+    const submitBtn = document.getElementById('task-submit-btn');
+    const legend = document.querySelector('legend');
+
+    //Change form title and button text for edit mode
+    legend.textContent = 'Edit Task';
+    submitBtn.textContent = 'Save Changes';
+
+    //Populate form with cuurent task data
+    editForm.title.value = todoObj.getTitle();
+    editForm.description.value = todoObj.getDescription();
+    editForm.dueDate.value = todoObj.getDueDate();
+
+    // Set priority radio button
+    const priorityValue = todoObj.getPriority();
+    console.log(priorityValue);
+    const priorityRadio = document.getElementById(priorityValue);
+    priorityRadio.checked = true;
+
+    // Set complete status checkbox
+    editForm.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
+
+    // Set project selection
+    // const projectSelection = document.getElementById('projectSelection');
+    updateModalSelectOptions();
+
+    editDialog.showModal();
 } 
 
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
-const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Medium');
+const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Normal');
 
 TodoApp.createProject('Personal');
 TodoApp.createProject('Cleaning');
 TodoApp.createProject('Groceries');
 TodoApp.createProject('Chores');
 TodoApp.createProject('Places to Eat');
-const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', '2025-02-26', 'Medium', 'Incomplete', 'Cleaning');
+const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', '2025-02-26', 'Normal', 'Incomplete', 'Cleaning');
 showProjectList();
 
 showTodoList(currentProject); 
