@@ -18,13 +18,26 @@ addTaskBtn.addEventListener('click', () => {
     const form = document.getElementById("new-task-form");
     const dialog = document.querySelector("dialog");
     form.reset();
+    //Change form title and button text for add mode
+    const submitBtn = document.getElementById('task-submit-btn');
+    const legend = document.querySelector('legend');
+    legend.textContent = 'Add Task';
+    submitBtn.textContent = 'Add';
+
     updateModalSelectOptions();
     
     const taskSubmitBtn = document.getElementById("task-submit-btn");
     taskSubmitBtn.addEventListener('click', function(e) {
         e.preventDefault(); //Stop page refresh
         if (form.reportValidity()){
-            getData(form);
+            var formDataObject = getData(form);
+            TodoApp.createTodo(formDataObject.title,
+                formDataObject.description,
+                formDataObject.dueDate,
+                formDataObject.priority,
+                formDataObject.completeStatus,
+                formDataObject.projectSelection
+            );
             form.reset();
             dialog.close();
             showTodoList(currentProject);
@@ -125,13 +138,16 @@ function updateModalSelectOptions() {
 function getData(form) {
     var formData = new FormData(form);
     const formDataObject = Object.fromEntries(formData);
-    TodoApp.createTodo(formDataObject.title,
-        formDataObject.description,
-        formDataObject.dueDate,
-        formDataObject.priority,
-        formDataObject.completeStatus,
-        formDataObject.projectSelection
-    );
+    return formDataObject
+}
+
+function editTodo(formDataObj, todoObj) {
+    todoObj.updateTitle(formDataObj.title);
+    todoObj.updateDescription(formDataObj.description);
+    todoObj.updateDueDate(formDataObj.dueDate);
+    todoObj.updatePriority(formDataObj.priority);
+    todoObj.changeCompleteStatus(formDataObj.completeStatus);
+    todoObj.changeProject(formDataObj.projectSelection);
 }
 
 function projectDeletion(project) {
@@ -170,6 +186,17 @@ function openTaskEditDialogue(todoObj) {
     //Change form title and button text for edit mode
     legend.textContent = 'Edit Task';
     submitBtn.textContent = 'Save Changes';
+
+    submitBtn.addEventListener('click', function(e) {
+        e.preventDefault(); //Stop page refresh
+        if (editForm.reportValidity()) {
+            var formDataObject = getData(editForm);
+            editTodo(formDataObject, todoObj);
+            editForm.reset();
+            editDialog.close();
+            showTodoList(currentProject);
+        }
+    })
 
     //Populate form with cuurent task data
     editForm.title.value = todoObj.getTitle();
