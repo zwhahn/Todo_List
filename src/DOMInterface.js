@@ -146,7 +146,11 @@ function editTodo(formDataObj, todoObj) {
     todoObj.updateDescription(formDataObj.description);
     todoObj.updateDueDate(formDataObj.dueDate);
     todoObj.updatePriority(formDataObj.priority);
-    todoObj.changeCompleteStatus(formDataObj.completeStatus);
+    if (formDataObj.completeStatus === 'on') {
+        todoObj.updateCompleteStatus('Complete');
+    } else {
+        todoObj.updateCompleteStatus('Incomplete')
+    }
     todoObj.changeProject(formDataObj.projectSelection);
 }
 
@@ -191,6 +195,7 @@ function openTaskEditDialogue(todoObj) {
         e.preventDefault(); //Stop page refresh
         if (editForm.reportValidity()) {
             var formDataObject = getData(editForm);
+            console.log('Form complete status: ' + formDataObject.completeStatus);
             editTodo(formDataObject, todoObj);
             editForm.reset();
             editDialog.close();
@@ -210,6 +215,7 @@ function openTaskEditDialogue(todoObj) {
     priorityRadio.checked = true;
 
     // Set complete status checkbox
+    // console.log(`Complete Status: ${todoObj.getCompleteStatus()}`)
     editForm.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
 
     // Set project selection

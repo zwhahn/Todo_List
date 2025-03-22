@@ -16,19 +16,14 @@ export const TodoApp = (function() {
         const updatePriority = (newPriority) => priority = newPriority;
 
         const getCompleteStatus = () => completeStatus;
-        const changeCompleteStatus = () => {
-            if(completeStatus == "Incomplete") {
-                completeStatus = "Complete"
-            }
-            else { completeStatus = "Incomplete"}
-        };
+        const updateCompleteStatus = (newCompleteStatus) => completeStatus = newCompleteStatus;
 
         const getProject = () => project;
         const changeProject = (newProject) => {
             project = newProject;
         }
 
-        const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, changeCompleteStatus, getProject, changeProject};
+        const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, updateCompleteStatus, getProject, changeProject};
         addTodoToProject(todoObj);
         
         return todoObj;
