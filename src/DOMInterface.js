@@ -73,6 +73,8 @@ const projectList = document.getElementById("project-list");
 function showProjectList() {
     // Clear project list
     projectList.textContent = '';
+
+    // Add all projects back
     for (const project in TodoApp.getAllProjects()) {
         console.log(project);
         const projectListItem = document.createElement("li");
