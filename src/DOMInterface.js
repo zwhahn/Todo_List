@@ -77,11 +77,15 @@ function showProjectList() {
     // Add all projects back
     for (const project in TodoApp.getAllProjects()) {
         console.log(project);
-        const projectListItem = document.createElement("li");
-        const projectTitle = document.createElement("div");
 
-        // Delete project button
+        const projectListItem = document.createElement("li");
+        projectListItem.classList.add('project-list-item')
+        const projectTitle = document.createElement("div");
+        projectTitle.classList.add('project-title')
+
+        // Add delete project button
         const projectDeleteBtn = document.createElement("button");
+        projectDeleteBtn.classList.add('project-delete-btn');
         projectDeleteBtn.innerText = 'Delete';
         projectDeleteBtn.addEventListener("click", () => {
             projectDeletion(project)
@@ -89,7 +93,7 @@ function showProjectList() {
      
         projectTitle.textContent = project;
         projectTitle.addEventListener('click', function() {
-            showTodoList(this.textContent);
+            showTodoList(project);
         }); 
         projectListItem.appendChild(projectTitle);
         projectListItem.appendChild(projectDeleteBtn);
@@ -114,10 +118,10 @@ function showTodoList(project) {
     // Get todo objects
     const todoItems = TodoApp.getProjectTodoItems(project); 
     todoItems.forEach(todoItem => {
-        const todoTitle = todoItem.getTitle();
-        console.log(todoTitle);
         const todoListItem = document.createElement("li");
-        const todoTask = document.createElement("div");
+        todoListItem.classList.add('todo-list-item')
+        const todoTitle = document.createElement("div");
+        todoTitle.classList.add('todo-title')
 
         // Delete todo button
         const todoDeleteBtn = document.createElement("button");
@@ -132,8 +136,8 @@ function showTodoList(project) {
             openTaskdialogue(todoItem);
         })
 
-        todoTask.textContent = todoTitle;
-        todoListItem.appendChild(todoTask);
+        todoTitle.textContent = todoItem.getTitle();
+        todoListItem.appendChild(todoTitle);
         todoListItem.appendChild(todoDeleteBtn);
         todoListItem.appendChild(editTaskBtn);
         taskList.appendChild(todoListItem);
