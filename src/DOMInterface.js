@@ -2,6 +2,12 @@ import "./styles.css";
 import { TodoApp } from "./TodoApp.js";
 
 var currentProject = 'default'
+let formMode = 'Add';
+let currentEditTodo = null;
+const submitBtn = document.getElementById('task-submit-btn');
+const form = document.getElementById("new-task-form");
+const dialog = document.querySelector("dialog");
+
 
 const addProjectBtn = document.getElementById("add-project-btn");
 addProjectBtn.addEventListener('click', () => {
@@ -15,21 +21,31 @@ addProjectBtn.addEventListener('click', () => {
 
 const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener('click', () => {
-    const form = document.getElementById("new-task-form");
     const dialog = document.querySelector("dialog");
     form.reset();
     //Change form title and button text for add mode
-    const submitBtn = document.getElementById('task-submit-btn');
+    formMode = 'Add';
     const legend = document.querySelector('legend');
     legend.textContent = 'Add Task';
     submitBtn.textContent = 'Add';
 
     updateModalSelectOptions();
+
+    dialog.showModal();
+})
+
+submitBtn.addEventListener('click', function(e) {
+    e.preventDefault(); //Stop page refresh
+    modalSubmitBtn(formMode, form, dialog);
+});
+
+function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
+
+    console.log(`currentEditTodo: ${currentEditTodo}`);
     
-    const taskSubmitBtn = document.getElementById("task-submit-btn");
-    taskSubmitBtn.addEventListener('click', function(e) {
-        e.preventDefault(); //Stop page refresh
-        if (form.reportValidity()){
+    //Add Mode
+    if (formMode =='Add' && form.reportValidity()) {
+        console.log("Add Button");
             var formDataObject = getData(form);
             TodoApp.createTodo(formDataObject.title,
                 formDataObject.description,
@@ -38,14 +54,20 @@ addTaskBtn.addEventListener('click', () => {
                 formDataObject.completeStatus,
                 formDataObject.projectSelection
             );
-            form.reset();
-            dialog.close();
-            showTodoList(currentProject);
-        };
-    });
+    };
 
-    dialog.showModal();
-})
+    //Edit Mode
+    if (formMode =='Edit' && form.reportValidity()) {
+        console.log("Edit Button")
+        var formDataObject = getData(form);
+        console.log('todoObj ' + currentEditTodo);
+        editTodo(formDataObject, currentEditTodo);
+    };
+
+    form.reset();
+    dialog.close();
+    showTodoList(currentProject);
+}
 
 const projectList = document.getElementById("project-list");
 function showProjectList() {
@@ -105,7 +127,7 @@ function showTodoList(project) {
         const editTaskBtn = document.createElement("button");
         editTaskBtn.innerText = 'Edit';
         editTaskBtn.addEventListener('click', () => {
-            openTaskEditDialogue(todoItem);
+            openTaskdialogue(todoItem);
         })
 
         todoTask.textContent = todoTitle;
@@ -141,17 +163,17 @@ function getData(form) {
     return formDataObject
 }
 
-function editTodo(formDataObj, todoObj) {
-    todoObj.updateTitle(formDataObj.title);
-    todoObj.updateDescription(formDataObj.description);
-    todoObj.updateDueDate(formDataObj.dueDate);
-    todoObj.updatePriority(formDataObj.priority);
+function editTodo(formDataObj) {
+    currentEditTodo.updateTitle(formDataObj.title);
+    currentEditTodo.updateDescription(formDataObj.description);
+    currentEditTodo.updateDueDate(formDataObj.dueDate);
+    currentEditTodo.updatePriority(formDataObj.priority);
     if (formDataObj.completeStatus === 'on') {
-        todoObj.updateCompleteStatus('Complete');
+        currentEditTodo.updateCompleteStatus('Complete');
     } else {
-        todoObj.updateCompleteStatus('Incomplete')
+        currentEditTodo.updateCompleteStatus('Incomplete')
     }
-    todoObj.changeProject(formDataObj.projectSelection);
+    currentEditTodo.changeProject(formDataObj.projectSelection);
 }
 
 function projectDeletion(project) {
@@ -181,32 +203,21 @@ function createNewProject() {
     showProjectList();
 }
 
-function openTaskEditDialogue(todoObj) {
-    const editForm = document.getElementById("new-task-form");
-    const editDialog = document.querySelector("dialog")
-    const submitBtn = document.getElementById('task-submit-btn');
+function openTaskdialogue(todoObj) {
+    const dialog = document.querySelector("dialog")
+    formMode = 'Edit';
+    currentEditTodo = todoObj;
+    console.log(`todoObj: ${currentEditTodo}`)
     const legend = document.querySelector('legend');
 
     //Change form title and button text for edit mode
     legend.textContent = 'Edit Task';
     submitBtn.textContent = 'Save Changes';
 
-    submitBtn.addEventListener('click', function(e) {
-        e.preventDefault(); //Stop page refresh
-        if (editForm.reportValidity()) {
-            var formDataObject = getData(editForm);
-            console.log('Form complete status: ' + formDataObject.completeStatus);
-            editTodo(formDataObject, todoObj);
-            editForm.reset();
-            editDialog.close();
-            showTodoList(currentProject);
-        }
-    })
-
     //Populate form with cuurent task data
-    editForm.title.value = todoObj.getTitle();
-    editForm.description.value = todoObj.getDescription();
-    editForm.dueDate.value = todoObj.getDueDate();
+    form.title.value = todoObj.getTitle();
+    form.description.value = todoObj.getDescription();
+    form.dueDate.value = todoObj.getDueDate();
 
     // Set priority radio button
     const priorityValue = todoObj.getPriority();
@@ -216,13 +227,13 @@ function openTaskEditDialogue(todoObj) {
 
     // Set complete status checkbox
     // console.log(`Complete Status: ${todoObj.getCompleteStatus()}`)
-    editForm.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
+    form.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
 
     // Set project selection
     // const projectSelection = document.getElementById('projectSelection');
     updateModalSelectOptions();
 
-    editDialog.showModal();
+    dialog.showModal();
 } 
 
 const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
