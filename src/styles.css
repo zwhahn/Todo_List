@@ -54,17 +54,17 @@ h1 {
 
 #task-list {
     row-gap: 0.5em;
-    width: 80%;
-    padding: 0px 0px 0px var(--task-left-padding);
+    width: 100%;
+    padding: 0px var(--task-left-padding);
 }
 
 .project-list-item, .todo-list-item {
     display: flex;
-    padding-left: 30px;
 }
 
 .project-list-item {
     height: 3em;
+    padding-left: 30px;
 }
 
 .todo-list-item {
@@ -72,6 +72,7 @@ h1 {
     border-radius: 100px;
     border: black solid 1px;
     height: 2em;
+    padding-left: 20px;
 }
 
 .project-list-item:hover, .todo-list-item:hover  {
@@ -92,9 +93,13 @@ h1 {
 }
 
 .project-delete-btn{
+    display: flex;
     margin-left: auto;
     /* border-radius: var(--project-corner-radius); */
     margin-right: 10px;
+    height: 2em;
+    align-self: center;
+    stroke-width: 5px;
 }
 
 #add-project-btn, #add-task-btn {
@@ -110,6 +115,20 @@ h1 {
     margin-top: 20px;
     align-self: center;
     font-size: 1.3em;
+}
+
+.delete-task-btn, .edit-task-btn {
+    display: flex;
+    align-self: center;
+    height: 1.5em;
+}
+
+.delete-task-btn {
+    margin-right: 20px;
+}
+
+.edit-task-btn {
+    margin-right: 10px;
 }
 
 #add-task-btn {
