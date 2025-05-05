@@ -119,16 +119,16 @@ h1 {
     stroke-width: 5px;
 }
 
-#add-project-btn, #add-task-btn {
+#add-project-btn, #add-task-btn, #task-submit-btn {
     all: unset;
     height: 2em;
     background-color: rgba(100, 0, 0, 0.1);
     cursor: pointer;
     padding: 0px 30px;
+    border-radius: 100px;
 }
 
 #add-project-btn {
-    border-radius: 3px;
     margin-top: 20px;
     align-self: center;
     font-size: 1.3em;
@@ -152,10 +152,80 @@ h1 {
     align-self: flex-start;
     margin-left: var(--task-left-padding);
     margin-top: 0.5em;
-    border-radius: 100px;
-
 }
 
-#add-project-btn:hover, #add-task-btn:hover {
+#task-submit-btn {
+    display: block;
+    margin: 10px auto 0px auto;
+}
+
+#add-project-btn:hover, #add-task-btn:hover, #task-submit-btn:hover {
     background-color: rgba(100, 0, 0, 0.3);
+}
+
+/* Dialog Formatting */
+dialog {
+    margin: auto;
+    width: clamp(500px, 500px, 100%);
+    background-color: var(--main-task-bg);
+    border-radius: 10px;
+    border: black 2px solid;
+}
+
+#form-title {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    border-bottom: 1px solid black;
+}
+
+form>div {
+    display: flex;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+label {
+    display: inline-block;
+    /* background-color: red; */
+    width: 140px;
+}
+
+input {
+    margin: auto;
+    flex: 1;
+    height: 2em;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset>div {
+    display: flex;
+    align-self: flex-start;
+}
+
+fieldset>div>label {
+    display: flex;
+    align-self: center;
+    padding-left: 20px;
+}
+
+#complete-status-input {
+    margin-left: 0;
+    margin-right: auto;
+    align-self: flex-start; /* Optional: aligns to top of the flex container */
+    flex: 0;
+    height: 2em;
+    width: 3em;
+    margin-top: 10px;
+}
+
+#projectSelection {
+    display: flex;
+    width: 100%;
+    flex: 1;
 }

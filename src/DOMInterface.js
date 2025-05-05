@@ -28,7 +28,7 @@ addTaskBtn.addEventListener('click', () => {
     //Change form title and button text for add mode
     formMode = 'Add';
     const legend = document.querySelector('legend');
-    legend.textContent = 'Add Task';
+    legend.textContent = 'New Task';
     submitBtn.textContent = 'Add';
 
     updateModalSelectOptions();

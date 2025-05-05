@@ -18,8 +18,8 @@
             <button id="add-task-btn">+ Task</button>
             <dialog>
                 <form id="new-task-form" action="">
-                    <legend>Create a new task</legend>
-                    <div>
+                    <legend id="form-title"></legend>
+                    <div class=".form-row">
                         <label for="title">Task Name:</label>
                         <input type="text" name="title" required>
                     </div>
@@ -48,7 +48,7 @@
                     </fieldset>
                     <div>
                         <label for="completeStatus">Complete?</label>
-                        <input type="checkbox" name="completeStatus">
+                        <input id="complete-status-input" type="checkbox" name="completeStatus">
                     </div>
                     <div>
                         <label for="projectSelection">Project</label> 
