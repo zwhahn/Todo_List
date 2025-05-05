@@ -1,5 +1,7 @@
 import "./styles.css";
 import { TodoApp } from "./TodoApp.js";
+import trashIcon from '../icons/trash.svg';
+import editIcon from '../icons/edit.svg';
 
 var currentProject = 'default'
 let formMode = 'Add';
@@ -84,9 +86,12 @@ function showProjectList() {
         projectTitle.classList.add('project-title')
 
         // Add delete project button
-        const projectDeleteBtn = document.createElement("button");
+        const projectDeleteBtn = document.createElement("input");
         projectDeleteBtn.classList.add('project-delete-btn');
-        projectDeleteBtn.innerText = 'Delete';
+        projectDeleteBtn.type = 'image';
+        projectDeleteBtn.src = trashIcon;
+        projectDeleteBtn.alt = 'Delete';
+        // projectDeleteBtn.innerText = 'Delete';
         projectDeleteBtn.addEventListener("click", () => {
             projectDeletion(project)
         })
@@ -118,28 +123,43 @@ function showTodoList(project) {
     // Get todo objects
     const todoItems = TodoApp.getProjectTodoItems(project); 
     todoItems.forEach(todoItem => {
+       
         const todoListItem = document.createElement("li");
         todoListItem.classList.add('todo-list-item')
+
+         // Task title
         const todoTitle = document.createElement("div");
-        todoTitle.classList.add('todo-title')
+        todoTitle.classList.add('todo-title');
+        todoTitle.textContent = todoItem.getTitle();
+
+        // Task description
+        const todoDescription = document.createElement("div");
+        todoDescription.classList.add('todo-description');
+        todoDescription.textContent = todoItem.getDescription();
 
         // Delete todo button
-        const todoDeleteBtn = document.createElement("button");
-        todoDeleteBtn.innerText = 'Delete';
-        todoDeleteBtn.addEventListener("click", () => {
+        const deleteTaskBtn = document.createElement("input");
+        deleteTaskBtn.classList.add('delete-task-btn');
+        deleteTaskBtn.type = 'image';
+        deleteTaskBtn.src = trashIcon;
+        deleteTaskBtn.alt = 'Delete';
+        deleteTaskBtn.addEventListener("click", () => {
             taskDeletion(currentProject, todoItem);
         })
 
-        const editTaskBtn = document.createElement("button");
-        editTaskBtn.innerText = 'Edit';
+        const editTaskBtn = document.createElement("input");
+        editTaskBtn.classList.add('edit-task-btn');
+        editTaskBtn.type = 'Image';
+        editTaskBtn.src = editIcon;
+        editTaskBtn.alt = 'Edit';
         editTaskBtn.addEventListener('click', () => {
             openTaskdialogue(todoItem);
         })
 
-        todoTitle.textContent = todoItem.getTitle();
         todoListItem.appendChild(todoTitle);
-        todoListItem.appendChild(todoDeleteBtn);
+        todoListItem.appendChild(todoDescription);
         todoListItem.appendChild(editTaskBtn);
+        todoListItem.appendChild(deleteTaskBtn);
         taskList.appendChild(todoListItem);
 
     });
