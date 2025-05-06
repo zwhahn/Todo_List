@@ -67,15 +67,16 @@ h1 {
     padding-left: 30px;
 }
 
+
 .todo-list-item {
-    background-color: rgba(200, 0, 0, 0.08);
-    border-radius: 100px;
     border: black solid 1px;
     height: 2em;
     padding-left: 20px;
+    border-radius: 100px;
+    min-width: 0; 
 }
 
-.project-list-item:hover, .todo-list-item:hover  {
+.project-list-item:hover, .todo-container:hover  {
     background-color: rgba(200, 0, 0, 0.1);
 }
 
@@ -103,6 +104,20 @@ h1 {
     padding-left: 10px;
     font-size: 0.8em;
     color: rgba(0, 0, 0, 0.8);
+    min-width: 0;
+}
+
+.task-description-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+}
+
+.task-date {
+    font-size: 0.8em;
+    margin-top: 5px;
 }
 
 .project-title {

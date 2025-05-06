@@ -123,21 +123,35 @@ function showTodoList(project) {
     // Get todo objects
     const todoItems = TodoApp.getProjectTodoItems(project); 
     todoItems.forEach(todoItem => {
+
+        // const todoContainer = document.createElement("div");
+        // todoContainer.classList.add('todo-container');
+
+        // const detailContainer = document.createElement("div");
+        // detailContainer.classList.add('task-detail-container');
        
         const todoListItem = document.createElement("li");
-        todoListItem.classList.add('todo-list-item')
+        todoListItem.classList.add('todo-list-item');
 
-         // Task title
+        // Title
         const todoTitle = document.createElement("div");
         todoTitle.classList.add('todo-title');
         todoTitle.textContent = todoItem.getTitle();
-
-        // Task description
+        
+        // Description
         const todoDescription = document.createElement("div");
         todoDescription.classList.add('todo-description');
-        todoDescription.textContent = todoItem.getDescription();
-
-        // Delete todo button
+        const todoDescriptionText = document.createElement("span");
+        todoDescriptionText.classList.add('task-description-text')
+        todoDescriptionText.textContent = todoItem.getDescription();
+        todoDescription.appendChild(todoDescriptionText);
+        
+        // Date
+        const taskDate = document.createElement("div");
+        taskDate.classList.add('task-date');
+        taskDate.textContent = todoItem.getDueDate();
+        
+        // Delete task button
         const deleteTaskBtn = document.createElement("input");
         deleteTaskBtn.classList.add('delete-task-btn');
         deleteTaskBtn.type = 'image';
@@ -146,7 +160,8 @@ function showTodoList(project) {
         deleteTaskBtn.addEventListener("click", () => {
             taskDeletion(currentProject, todoItem);
         })
-
+        
+        // Edit task button
         const editTaskBtn = document.createElement("input");
         editTaskBtn.classList.add('edit-task-btn');
         editTaskBtn.type = 'Image';
@@ -155,9 +170,10 @@ function showTodoList(project) {
         editTaskBtn.addEventListener('click', () => {
             openTaskdialogue(todoItem);
         })
-
+        
         todoListItem.appendChild(todoTitle);
         todoListItem.appendChild(todoDescription);
+        todoListItem.appendChild(taskDate);
         todoListItem.appendChild(editTaskBtn);
         todoListItem.appendChild(deleteTaskBtn);
         taskList.appendChild(todoListItem);
