@@ -1,4 +1,5 @@
 import "./styles.css";
+import { format,parseISO } from "date-fns";
 import { TodoApp } from "./TodoApp.js";
 import trashIcon from '../icons/trash.svg';
 import editIcon from '../icons/edit.svg';
@@ -256,7 +257,7 @@ function openTaskdialogue(todoObj) {
     legend.textContent = 'Edit Task';
     submitBtn.textContent = 'Save Changes';
 
-    //Populate form with cuurent task data
+    //Populate form with current task data
     form.title.value = todoObj.getTitle();
     form.description.value = todoObj.getDescription();
     form.dueDate.value = todoObj.getDueDate();
@@ -278,15 +279,19 @@ function openTaskdialogue(todoObj) {
     dialog.showModal();
 } 
 
-const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2025-02-25', 'High');
-const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2025-02-26', 'Normal');
+function formatDate () {
+    format()
+}
+
+const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', format(new Date(2017, 10, 6), 'LLL do'), 'High');
+const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal');
 
 TodoApp.createProject('Personal');
 TodoApp.createProject('Cleaning');
 TodoApp.createProject('Groceries');
 TodoApp.createProject('Chores');
 TodoApp.createProject('Places to Eat');
-const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', '2025-02-26', 'Normal', 'Incomplete', 'Cleaning');
+const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal', 'Incomplete', 'Cleaning');
 showProjectList();
 
 showTodoList(currentProject); 
