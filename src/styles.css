@@ -116,8 +116,14 @@ h1 {
 }
 
 .task-date {
+    display: flex;
+    align-items: center;
     font-size: 0.8em;
-    margin-top: 5px;
+    width: auto;
+    /* background-color: red; */
+    white-space: nowrap;
+    padding-right: 10px;
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .project-title {
