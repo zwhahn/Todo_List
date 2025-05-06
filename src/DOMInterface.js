@@ -279,19 +279,15 @@ function openTaskdialogue(todoObj) {
     dialog.showModal();
 } 
 
-function formatDate () {
-    format()
-}
-
-const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', format(new Date(2017, 10, 6), 'LLL do'), 'High');
-const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal');
+// const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', format(new Date(2017, 10, 6), 'LLL do'), 'High');
+// const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal');
 
 TodoApp.createProject('Personal');
 TodoApp.createProject('Cleaning');
 TodoApp.createProject('Groceries');
 TodoApp.createProject('Chores');
 TodoApp.createProject('Places to Eat');
-const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal', 'Incomplete', 'Cleaning');
+// const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal', 'Incomplete', 'Cleaning');
 showProjectList();
 
 showTodoList(currentProject); 

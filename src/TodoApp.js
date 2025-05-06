@@ -1,3 +1,5 @@
+import { format,parseISO } from "date-fns";
+
 export const TodoApp = (function() {
     const projectDict = {'default':[]};
 
@@ -9,7 +11,7 @@ export const TodoApp = (function() {
         const getDescription = () => description;
         const updateDescription = (newDescription) => description = newDescription;
 
-        const getDueDate = () => dueDate;
+        const getDueDate = () => formatDueDate(dueDate);
         const updateDueDate = (newDueDate) => dueDate = newDueDate;
 
         const getPriority = () => priority;
@@ -92,6 +94,12 @@ export const TodoApp = (function() {
         }
 
         return "Project does not exist"
+    }
+
+    function formatDueDate (dueDateInput) {
+        var parsedDate = parseISO(dueDateInput);
+        const formattedDate = format(parsedDate, 'LLL do');
+        return formattedDate;
     }
 
     return {
