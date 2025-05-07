@@ -76,7 +76,7 @@ h1 {
     min-width: 0; 
 }
 
-.project-list-item:hover, .todo-container:hover  {
+.project-list-item:hover, .todo-list-item:hover  {
     background-color: rgba(200, 0, 0, 0.1);
 }
 
@@ -124,7 +124,6 @@ h1 {
     white-space: nowrap;
     padding-right: 10px;
     color: rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
 }
 
 .project-title {

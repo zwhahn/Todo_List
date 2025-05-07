@@ -38,6 +38,10 @@ addTaskBtn.addEventListener('click', () => {
 })
 
 submitBtn.addEventListener('click', function(e) {
+    if (!form.checkValidity()) {
+        form.reportValidity(); // shows the validation error
+        return;
+    }
     e.preventDefault(); //Stop page refresh
     modalSubmitBtn(formMode, form, dialog);
 });
@@ -150,7 +154,7 @@ function showTodoList(project) {
         // Date
         const taskDate = document.createElement("div");
         taskDate.classList.add('task-date');
-        taskDate.textContent = todoItem.getDueDate();
+        taskDate.textContent = formatDueDate(todoItem.getDueDate());
         
         // Delete task button
         const deleteTaskBtn = document.createElement("input");
@@ -260,8 +264,7 @@ function openTaskdialogue(todoObj) {
     //Populate form with current task data
     form.title.value = todoObj.getTitle();
     form.description.value = todoObj.getDescription();
-    console.log(todoObj.getDueDate());
-    // form.dueDate.value = format(todoObj.getDueDate(), 'yyyy-MM-dd');
+    form.dueDate.value = todoObj.getDueDate();
 
     // Set priority radio button
     const priorityValue = todoObj.getPriority();
@@ -280,8 +283,17 @@ function openTaskdialogue(todoObj) {
     dialog.showModal();
 } 
 
-// const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', format(new Date(2017, 10, 6), 'LLL do'), 'High');
-// const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal');
+function formatDueDate (dueDateInput) {
+    if (dueDateInput == '') {
+        return
+    }
+    var parsedDate = parseISO(dueDateInput);
+    const formattedDate = format(parsedDate, 'M / d');
+    return formattedDate;
+}
+
+const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
+const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
 
 TodoApp.createProject('Personal');
 TodoApp.createProject('Cleaning');
