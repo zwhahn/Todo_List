@@ -12,7 +12,7 @@ export const TodoApp = (function() {
         const updateDescription = (newDescription) => description = newDescription;
 
         const getDueDate = () => formatDueDate(dueDate);
-        const updateDueDate = (newDueDate) => dueDate = newDueDate;
+        const updateDueDate = (newDueDate) => dueDate = formatDueDate(newDueDate);
 
         const getPriority = () => priority;
         const updatePriority = (newPriority) => priority = newPriority;
@@ -98,7 +98,7 @@ export const TodoApp = (function() {
 
     function formatDueDate (dueDateInput) {
         var parsedDate = parseISO(dueDateInput);
-        const formattedDate = format(parsedDate, 'LLL do');
+        const formattedDate = format(parsedDate, 'M/d');
         return formattedDate;
     }
 

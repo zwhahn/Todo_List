@@ -260,7 +260,8 @@ function openTaskdialogue(todoObj) {
     //Populate form with current task data
     form.title.value = todoObj.getTitle();
     form.description.value = todoObj.getDescription();
-    form.dueDate.value = todoObj.getDueDate();
+    console.log(todoObj.getDueDate());
+    // form.dueDate.value = format(todoObj.getDueDate(), 'yyyy-MM-dd');
 
     // Set priority radio button
     const priorityValue = todoObj.getPriority();
