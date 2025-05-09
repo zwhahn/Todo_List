@@ -138,6 +138,26 @@ function showTodoList(project) {
         const todoListItem = document.createElement("li");
         todoListItem.classList.add('todo-list-item');
 
+        // Check box
+        const completedCheckbox = document.createElement("input");
+        completedCheckbox.classList.add('completed-checkbox');
+        completedCheckbox.type = 'checkbox';
+        completedCheckbox.addEventListener('change', function () {
+            if (completedCheckbox.checked) {
+            // Add formatting for completed state
+            completedCheckbox.parentElement.classList.add('complete');
+            todoDescription.classList.add('description-complete');
+            taskDate.classList.add('date-complete')
+            currentEditTodo.updateCompleteStatus('Complete');
+            } else {
+            // Remove formatting for completed state
+            completedCheckbox.parentElement.classList.remove('complete');
+            todoDescription.classList.remove('description-complete');
+            taskDate.classList.remove('date-complete');
+            }
+        });
+
+
         // Title
         const todoTitle = document.createElement("div");
         todoTitle.classList.add('todo-title');
@@ -176,6 +196,7 @@ function showTodoList(project) {
             openTaskdialogue(todoItem);
         })
         
+        todoListItem.appendChild(completedCheckbox);
         todoListItem.appendChild(todoTitle);
         todoListItem.appendChild(todoDescription);
         todoListItem.appendChild(taskDate);

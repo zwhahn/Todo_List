@@ -1,6 +1,8 @@
 :root {
     --main-task-bg: #fdd85d;
     --main-project-bg: #fdc921;
+    --completed-task-bg: #cc5803;
+    --completed-task-font-color: #ffc971;
     font-family: Arial, Helvetica, sans-serif;
     --task-left-padding: 40px;
   }
@@ -80,6 +82,7 @@ h1 {
     background-color: rgba(200, 0, 0, 0.1);
 }
 
+
 .project-title, .todo-title {
     display: flex;
     margin: auto;
@@ -95,6 +98,11 @@ h1 {
 
 .project-title {
     width: 100%;
+}
+
+.completed-checkbox {
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .todo-description {
@@ -115,15 +123,26 @@ h1 {
     min-width: 0;
 }
 
+.complete{
+    color: var(--completed-task-font-color);
+    background-color: var(--completed-task-bg);
+}
+
+.description-complete, .date-complete {
+    color: var(--completed-task-font-color);
+}
+
+.complete:hover  {
+    background-color: #e2711d;
+}
+
 .task-date {
     display: flex;
     align-items: center;
     font-size: 0.8em;
     width: auto;
-    /* background-color: red; */
     white-space: nowrap;
     padding-right: 10px;
-    color: rgba(0, 0, 0, 0.8);
 }
 
 .project-title {
