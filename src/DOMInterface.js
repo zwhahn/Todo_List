@@ -23,6 +23,7 @@ addProjectBtn.addEventListener('click', () => {
         alert('Project name already exists');
     };
     showProjectList();
+    showTodoList(newProjectName);
 })
 
 const addTaskBtn = document.getElementById("add-task-btn");
