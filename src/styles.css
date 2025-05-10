@@ -83,7 +83,7 @@ h1 {
 }
 
 
-.project-title, .todo-title {
+.project-name, .todo-title {
     display: flex;
     margin: auto;
     align-items: center;
@@ -96,7 +96,7 @@ h1 {
     width: auto;
 }
 
-.project-title {
+.project-name {
     width: 100%;
 }
 
@@ -145,7 +145,7 @@ h1 {
     padding-right: 10px;
 }
 
-.project-title {
+.project-name {
     font-size: 1.3em;
 }
 

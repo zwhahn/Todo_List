@@ -4,7 +4,7 @@ import { TodoApp } from "./TodoApp.js";
 import trashIcon from '../icons/trash.svg';
 import editIcon from '../icons/edit.svg';
 
-var currentProject = 'default'
+var currentProject;
 let formMode = 'Add';
 let currentEditTodo = null;
 const submitBtn = document.getElementById('task-submit-btn');
@@ -15,8 +15,11 @@ const dialog = document.querySelector("dialog");
 const addProjectBtn = document.getElementById("add-project-btn");
 addProjectBtn.addEventListener('click', () => {
     const newProjectName = prompt('Enter new project name');
+    if (!newProjectName || newProjectName.trim() === '') {
+        return;
+      }
     // Tell user why project creation failed
-    if (TodoApp.createProject(newProjectName) == false){
+    else if (TodoApp.createProject(newProjectName) == false){
         alert('Project name already exists');
     };
     showProjectList();
@@ -40,6 +43,10 @@ addTaskBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', function(e) {
     if (!form.checkValidity()) {
         form.reportValidity(); // shows the validation error
+        return;
+    }
+    else if (Object.keys(TodoApp.getAllProjects()).length === 0) {
+        alert("Create a project before creating a task!")
         return;
     }
     e.preventDefault(); //Stop page refresh
@@ -87,8 +94,8 @@ function showProjectList() {
 
         const projectListItem = document.createElement("li");
         projectListItem.classList.add('project-list-item')
-        const projectTitle = document.createElement("div");
-        projectTitle.classList.add('project-title')
+        const projectName = document.createElement("div");
+        projectName.classList.add('project-name')
 
         // Add delete project button
         const projectDeleteBtn = document.createElement("input");
@@ -101,15 +108,15 @@ function showProjectList() {
             projectDeletion(project)
         })
      
-        projectTitle.textContent = project;
-        projectTitle.addEventListener('click', function() {
+        projectName.textContent = project;
+        projectName.addEventListener('click', function() {
             showTodoList(project);
         }); 
-        projectListItem.appendChild(projectTitle);
+        projectListItem.appendChild(projectName);
         projectListItem.appendChild(projectDeleteBtn);
         projectList.appendChild(projectListItem);    
     }
-    return
+    return;
 }
 
 function changeProjectTitle(project) {
@@ -148,12 +155,13 @@ function showTodoList(project) {
             completedCheckbox.parentElement.classList.add('complete');
             todoDescription.classList.add('description-complete');
             taskDate.classList.add('date-complete')
-            currentEditTodo.updateCompleteStatus('Complete');
+            todoItem.updateCompleteStatus('Complete');
             } else {
             // Remove formatting for completed state
             completedCheckbox.parentElement.classList.remove('complete');
             todoDescription.classList.remove('description-complete');
             taskDate.classList.remove('date-complete');
+            todoItem.updateCompleteStatus('Inomplete');
             }
         });
 
@@ -265,9 +273,9 @@ function taskDeletion(currentProject, todoObj) {
 }
 
 function createNewProject() {
-    TodoApp.createProject('New Project');
-    currentProject = 'New Project';
-    showTodoList(currentProject);
+    currentProject = '';
+    const projectTitle = document.getElementById("project-title");
+    projectTitle.textContent = 'Project Title';
     showProjectList();
 }
 
@@ -298,8 +306,8 @@ function openTaskdialogue(todoObj) {
     form.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
 
     // Set project selection
-    // const projectSelection = document.getElementById('projectSelection');
     updateModalSelectOptions();
+    const projectSelection = document.getElementById('projectSelection');
 
     dialog.showModal();
 } 
@@ -313,15 +321,15 @@ function formatDueDate (dueDateInput) {
     return formattedDate;
 }
 
-const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
-const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
+// const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
+// const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
 
-TodoApp.createProject('Personal');
-TodoApp.createProject('Cleaning');
-TodoApp.createProject('Groceries');
-TodoApp.createProject('Chores');
-TodoApp.createProject('Places to Eat');
-// const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal', 'Incomplete', 'Cleaning');
-showProjectList();
+// TodoApp.createProject('Personal');
+// TodoApp.createProject('Cleaning');
+// TodoApp.createProject('Groceries');
+// TodoApp.createProject('Chores');
+// TodoApp.createProject('Places to Eat');
+// // const todo3 = TodoApp.createTodo('Sweep floor', 'Finish reading JavaScript book', format(new Date(2017, 10, 6), 'LLL do'), 'Normal', 'Incomplete', 'Cleaning');
+// showProjectList();
 
-showTodoList(currentProject); 
+// showTodoList(currentProject); 

@@ -1,7 +1,7 @@
 export const TodoApp = (function() {
-    const projectDict = {'default':[]};
+    const projectDict = {};
 
-    function createTodo (title, description="", dueDate="", priority="", completeStatus="Incomplete", project="default") {
+    function createTodo (title, description="", dueDate="", priority="", completeStatus="Incomplete", project="") {
 
         const getTitle = () => title;
         const updateTitle = (newTitle) => title = newTitle;
