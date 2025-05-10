@@ -260,7 +260,7 @@ function projectDeletion(project) {
 
     // Handle empty project list
     if (currentProject === undefined) {
-        createNewProject();
+        handleEmptyProjectList();
         return;
     }
     showTodoList(currentProject);
@@ -272,7 +272,7 @@ function taskDeletion(currentProject, todoObj) {
     showTodoList(currentProject);
 }
 
-function createNewProject() {
+function handleEmptyProjectList() {
     currentProject = '';
     const projectTitle = document.getElementById("project-title");
     projectTitle.textContent = 'Project Title';
