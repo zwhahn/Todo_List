@@ -28,6 +28,10 @@ addProjectBtn.addEventListener('click', () => {
 
 const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener('click', () => {
+    if (Object.keys(TodoApp.getAllProjects()).length === 0) {
+        alert("Create a project before creating a task")
+        return;
+    }
     const dialog = document.querySelector("dialog");
     form.reset();
     //Change form title and button text for add mode
@@ -44,10 +48,6 @@ addTaskBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', function(e) {
     if (!form.checkValidity()) {
         form.reportValidity(); // shows the validation error
-        return;
-    }
-    else if (Object.keys(TodoApp.getAllProjects()).length === 0) {
-        alert("Create a project before creating a task!")
         return;
     }
     e.preventDefault(); //Stop page refresh
@@ -265,6 +265,7 @@ function projectDeletion(project) {
         return;
     }
     showTodoList(currentProject);
+    
 }
 
 function taskDeletion(currentProject, todoObj) {
