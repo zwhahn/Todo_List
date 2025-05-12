@@ -153,16 +153,10 @@ function showTodoList(project) {
         completedCheckbox.addEventListener('change', function () {
             if (completedCheckbox.checked) {
             // Add formatting for completed state
-            completedCheckbox.parentElement.classList.add('complete');
-            todoDescription.classList.add('description-complete');
-            taskDate.classList.add('date-complete')
-            todoItem.updateCompleteStatus('Complete');
+                completeTask(completedCheckbox, todoDescription, taskDate, todoItem);
             } else {
-            // Remove formatting for completed state
-            completedCheckbox.parentElement.classList.remove('complete');
-            todoDescription.classList.remove('description-complete');
-            taskDate.classList.remove('date-complete');
-            todoItem.updateCompleteStatus('Inomplete');
+                // Remove formatting for completed state
+                incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem);
             }
         });
 
@@ -216,6 +210,22 @@ function showTodoList(project) {
     });
 }
 
+function completeTask(completedCheckbox, todoDescription, taskDate, todoItem) {
+    completedCheckbox.parentElement.classList.add('complete');
+    todoDescription.classList.add('description-complete');
+    taskDate.classList.add('date-complete')
+    todoItem.updateCompleteStatus('Complete');
+    console.log(todoItem.getCompleteStatus());
+}
+
+function incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem) {
+    completedCheckbox.parentElement.classList.remove('complete');
+    todoDescription.classList.remove('description-complete');
+    taskDate.classList.remove('date-complete');
+    todoItem.updateCompleteStatus('Inomplete');
+    console.log(todoItem.getCompleteStatus());
+}
+
 // Update project drop down list dynamically
 function updateModalSelectOptions() {
     const projectSelection = document.getElementById("projectSelection");
@@ -247,6 +257,8 @@ function editTodo(formDataObj) {
     currentEditTodo.updatePriority(formDataObj.priority);
     if (formDataObj.completeStatus === 'on') {
         currentEditTodo.updateCompleteStatus('Complete');
+        completeTask();
+
     } else {
         currentEditTodo.updateCompleteStatus('Incomplete')
     }
