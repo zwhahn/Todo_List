@@ -24,6 +24,7 @@ addProjectBtn.addEventListener('click', () => {
     };
     showProjectList();
     showTodoList(newProjectName);
+    setLocalStorage();
 })
 
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -55,12 +56,9 @@ submitBtn.addEventListener('click', function(e) {
 });
 
 function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
-
-    console.log(`currentEditTodo: ${currentEditTodo}`);
     
     //Add Mode
     if (formMode =='Add' && form.reportValidity()) {
-        console.log("Add Button");
             var formDataObject = getData(form);
             TodoApp.createTodo(formDataObject.title,
                 formDataObject.description,
@@ -73,15 +71,14 @@ function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
 
     //Edit Mode
     if (formMode =='Edit' && form.reportValidity()) {
-        console.log("Edit Button")
         var formDataObject = getData(form);
-        console.log('todoObj ' + currentEditTodo);
         editTodo(formDataObject, currentEditTodo);
     };
 
     form.reset();
     dialog.close();
     showTodoList(currentProject);
+    setLocalStorage();
 }
 
 const projectList = document.getElementById("project-list");
@@ -91,7 +88,6 @@ function showProjectList() {
 
     // Add all projects back
     for (const project in TodoApp.getAllProjects()) {
-        console.log(project);
 
         const projectListItem = document.createElement("li");
         projectListItem.classList.add('project-list-item')
@@ -211,11 +207,12 @@ function showTodoList(project) {
 }
 
 function completeTask(completedCheckbox, todoDescription, taskDate, todoItem) {
-    completedCheckbox.parentElement.classList.add('complete');
+    if (completedCheckbox) {
+        completedCheckbox.parentElement.classList.add('complete');
+    }
     todoDescription.classList.add('description-complete');
     taskDate.classList.add('date-complete')
     todoItem.updateCompleteStatus('Complete');
-    console.log(todoItem.getCompleteStatus());
 }
 
 function incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem) {
@@ -223,7 +220,6 @@ function incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem) 
     todoDescription.classList.remove('description-complete');
     taskDate.classList.remove('date-complete');
     todoItem.updateCompleteStatus('Inomplete');
-    console.log(todoItem.getCompleteStatus());
 }
 
 // Update project drop down list dynamically
@@ -257,7 +253,7 @@ function editTodo(formDataObj) {
     currentEditTodo.updatePriority(formDataObj.priority);
     if (formDataObj.completeStatus === 'on') {
         currentEditTodo.updateCompleteStatus('Complete');
-        completeTask();
+        completeTask(null, formDataObj.description, formDataObj.dueDate, currentEditTodo);
 
     } else {
         currentEditTodo.updateCompleteStatus('Incomplete')
@@ -269,7 +265,6 @@ function projectDeletion(project) {
     TodoApp.deleteProject(project);
     showProjectList();
     currentProject = Object.keys(TodoApp.getAllProjects())[0];
-    console.log("Current Project: " + currentProject);
 
     // Handle empty project list
     if (currentProject === undefined) {
@@ -282,7 +277,6 @@ function projectDeletion(project) {
 
 function taskDeletion(currentProject, todoObj) {
     const todoTitle = todoObj.getTitle();
-    console.log(TodoApp.deleteTodo(currentProject, todoTitle));
     showTodoList(currentProject);
 }
 
@@ -297,7 +291,6 @@ function openTaskdialogue(todoObj) {
     const dialog = document.querySelector("dialog")
     formMode = 'Edit';
     currentEditTodo = todoObj;
-    console.log(`todoObj: ${currentEditTodo}`)
     const legend = document.querySelector('legend');
 
     //Change form title and button text for edit mode
@@ -311,12 +304,10 @@ function openTaskdialogue(todoObj) {
 
     // Set priority radio button
     const priorityValue = todoObj.getPriority();
-    console.log(priorityValue);
     const priorityRadio = document.getElementById(priorityValue);
     priorityRadio.checked = true;
 
     // Set complete status checkbox
-    // console.log(`Complete Status: ${todoObj.getCompleteStatus()}`)
     form.completeStatus.checked = todoObj.getCompleteStatus() === 'Complete';
 
     // Set project selection
@@ -334,6 +325,14 @@ function formatDueDate (dueDateInput) {
     const formattedDate = format(parsedDate, 'M / d');
     return formattedDate;
 }
+
+function setLocalStorage () {
+    const projectDictString = JSON.stringify(TodoApp.getAllProjects());
+    localStorage.setItem("projectDict", projectDictString);
+    return;
+}
+
+// function readLocalStorage
 
 // const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
 // const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
