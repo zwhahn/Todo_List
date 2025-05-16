@@ -11,21 +11,34 @@ const submitBtn = document.getElementById('task-submit-btn');
 const form = document.getElementById("new-task-form");
 const dialog = document.querySelector("dialog");
 
+document.addEventListener("DOMContentLoaded", function () {
+    readLocalStorage();
+    if (TodoApp.getAllProjects()) {
+        console.log(`There is local storage, ${TodoApp.getAllProjects()}`);
+        showProjectList();
+    }
+});
 
 const addProjectBtn = document.getElementById("add-project-btn");
 addProjectBtn.addEventListener('click', () => {
     const newProjectName = prompt('Enter new project name');
+
+    // Check if empty
     if (!newProjectName || newProjectName.trim() === '') {
         return;
       }
-    // Tell user why project creation failed
-    else if (TodoApp.createProject(newProjectName) == false){
-        alert('Project name already exists');
-    };
+    
+    addProject(newProjectName);
+    
+})
+
+function addProject (newProjectName) {
+    TodoApp.createProject(newProjectName);
     showProjectList();
     showTodoList(newProjectName);
+    console.dir(TodoApp.getAllProjects());
     setLocalStorage();
-})
+}
 
 const addTaskBtn = document.getElementById("add-task-btn");
 addTaskBtn.addEventListener('click', () => {
@@ -78,11 +91,12 @@ function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
     form.reset();
     dialog.close();
     showTodoList(currentProject);
-    setLocalStorage();
 }
 
 const projectList = document.getElementById("project-list");
 function showProjectList() {
+
+    console.log("Showing projects");
     // Clear project list
     projectList.textContent = '';
 
@@ -102,7 +116,7 @@ function showProjectList() {
         projectDeleteBtn.alt = 'Delete';
         // projectDeleteBtn.innerText = 'Delete';
         projectDeleteBtn.addEventListener("click", () => {
-            projectDeletion(project)
+            projectDeletion(project);
         })
      
         projectName.textContent = project;
@@ -327,12 +341,28 @@ function formatDueDate (dueDateInput) {
 }
 
 function setLocalStorage () {
-    const projectDictString = JSON.stringify(TodoApp.getAllProjects());
-    localStorage.setItem("projectDict", projectDictString);
+    const rawData = {};
+
+    const allProjects = TodoApp.getAllProjects();
+    for (const projectName in allProjects) {
+        rawData[projectName] = allProjects[projectName].map(todo => todo.serialize());
+    }
+
+    localStorage.setItem("projectDict", JSON.stringify(rawData));
+}
+
+function readLocalStorage () {
+    const storedProjectDict = JSON.parse(localStorage.getItem("projectDict"));
+    reviveFromStorage(storedProjectDict);
     return;
 }
 
-// function readLocalStorage
+function reviveFromStorage (storedProjectDict) {
+    for (const project in storedProjectDict) {
+        TodoApp.createProject(project);
+    }
+    console.dir(TodoApp.getAllProjects());
+}
 
 // const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
 // const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
