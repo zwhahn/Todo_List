@@ -23,7 +23,15 @@ export const TodoApp = (function() {
             project = newProject;
         }
 
-        const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, updateCompleteStatus, getProject, changeProject};
+        const serialize = () => ({
+            title,
+            description,
+            dueDate,
+            priority,
+            completeStatus,
+            project
+            });
+        const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, updateCompleteStatus, getProject, changeProject, serialize};
         addTodoToProject(todoObj);
         
         return todoObj;
@@ -51,6 +59,7 @@ export const TodoApp = (function() {
     
     function checkIfProjectExists (projectName) {
         if (projectDict[projectName]) {
+            alert("Project name exists");
             return true
         } else {
             return false
@@ -94,6 +103,13 @@ export const TodoApp = (function() {
         return "Project does not exist"
     }
 
+    function setProjectDict (storedProjectDict) {
+        for (const key in storedProjectDict) {
+            projectDict[key] = storedProjectDict[key];
+        }
+    }
+
+
     return {
         createTodo,
         createProject,
@@ -104,7 +120,8 @@ export const TodoApp = (function() {
         getAllProjects,
         getProjectTodoItems,
         deleteProject,
-        deleteTodo
+        deleteTodo,
+        setProjectDict,
     };
 
 })();
