@@ -90,6 +90,7 @@ function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
 
     form.reset();
     dialog.close();
+    setLocalStorage();
     showTodoList(currentProject);
 }
 
@@ -344,10 +345,17 @@ function setLocalStorage () {
     const rawData = {};
 
     const allProjects = TodoApp.getAllProjects();
-    for (const projectName in allProjects) {
-        rawData[projectName] = allProjects[projectName].map(todo => todo.serialize());
+    // const todoItems = TodoApp.getProjectTodoItems(project);
+
+    for (const project in allProjects) {
+        rawData[project] = [];
+        const todoItems = TodoApp.getProjectTodoItems(project);
+        for (const key in todoItems) {
+            rawData[project].push(todoItems[key].serialize());
+        }
     }
 
+    console.table(rawData)
     localStorage.setItem("projectDict", JSON.stringify(rawData));
 }
 

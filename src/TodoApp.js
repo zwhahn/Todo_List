@@ -31,6 +31,7 @@ export const TodoApp = (function() {
             completeStatus,
             project
             });
+        
         const todoObj = { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDueDate, getPriority, updatePriority, getCompleteStatus, updateCompleteStatus, getProject, changeProject, serialize};
         addTodoToProject(todoObj);
         
