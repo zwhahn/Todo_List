@@ -278,6 +278,7 @@ function editTodo(formDataObj) {
 
 function projectDeletion(project) {
     TodoApp.deleteProject(project);
+    setLocalStorage();
     showProjectList();
     currentProject = Object.keys(TodoApp.getAllProjects())[0];
 
@@ -287,7 +288,6 @@ function projectDeletion(project) {
         return;
     }
     showTodoList(currentProject);
-    
 }
 
 function taskDeletion(currentProject, todoObj) {
