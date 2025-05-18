@@ -361,16 +361,39 @@ function setLocalStorage () {
 
 function readLocalStorage () {
     const storedProjectDict = JSON.parse(localStorage.getItem("projectDict"));
+    console.log("------readLocalStorage------")
+    console.table(storedProjectDict)
     reviveFromStorage(storedProjectDict);
     return;
 }
 
 function reviveFromStorage (storedProjectDict) {
+    var counter = 0;
     for (const project in storedProjectDict) {
+        console.log(project);
         TodoApp.createProject(project);
-    }
-    console.dir(TodoApp.getAllProjects());
-}
+
+        const todos = storedProjectDict[project];
+
+        todos.forEach(todo => {
+            TodoApp.createTodo(
+                todo.title,
+                todo.description,
+                todo.dueDate,
+                todo.priority,
+                todo.completeStatus,
+                project
+            );
+        });
+
+        // Show the first project
+        if (counter == 0) {
+            showTodoList(project);
+        }
+        
+        counter += 1;
+    };
+};
 
 // const todo1 = TodoApp.createTodo('Buy groceries', 'Milk, eggs, and bread', '2017-10-22', 'High');
 // const todo2 = TodoApp.createTodo('Read book', 'Finish reading JavaScript book', '2017-10-22', 'Normal');
