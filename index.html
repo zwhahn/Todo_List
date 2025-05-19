@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+<script defer src="main.js"></script></head>
+<body>
+    <div class="layout">
+        <div class="project-sidebar">
+            <h1>Projects</h1>
+            <ul id="project-list"></ul>
+            <button id="add-project-btn">+ Project</button>
+        </div>
+        <div class="main">
+            <h1 id="project-title">Project Title</h1>
+            <ul id="todo-list"></ul>
+            <button id="add-todo-btn">+ Todo</button>
+            <dialog>
+                <form id="new-todo-form" action="">
+                    <legend id="form-title"></legend>
+                    <div class="form-row">
+                        <label for="title">Todo Name:</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div>
+                        <label for="description">Todo description:</label>
+                        <input type="text" name="description">
+                    </div>
+                    <div>
+                        <label for="dueDate">Due Date:</label>
+                        <input type="date" name="dueDate">
+                    </div>
+                    <fieldset>
+                        <legend>Priority Level</legend>
+                        <div>
+                            <input type="radio" name="priority" id="High" value="High">
+                            <label for="High">High</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="priority" id="Normal" value="Normal" checked>
+                            <label for="Normal">Normal</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="priority" id="Low" value="Low">
+                            <label for="Low">Low</label>
+                        </div>
+                    </fieldset>
+                    <div>
+                        <label for="completeStatus">Complete?</label>
+                        <input id="complete-status-input" type="checkbox" name="completeStatus">
+                    </div>
+                    <div>
+                        <label for="projectSelection">Project</label> 
+                        <select name="projectSelection" id="projectSelection">
+                            <!-- Filled dynamically -->
+                        </select>
+                    </div>
+                    <button type="button" id="todo-submit-btn">Add</button>
+                </form>
+            </dialog>
+        </div>
+    </div>
+</body>
+</html>
