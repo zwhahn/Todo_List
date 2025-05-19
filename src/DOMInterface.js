@@ -115,7 +115,6 @@ function showProjectList() {
         projectDeleteBtn.type = 'image';
         projectDeleteBtn.src = trashIcon;
         projectDeleteBtn.alt = 'Delete';
-        // projectDeleteBtn.innerText = 'Delete';
         projectDeleteBtn.addEventListener("click", () => {
             projectDeletion(project);
         })
@@ -148,29 +147,8 @@ function showTodoList(project) {
     const todoItems = TodoApp.getProjectTodoItems(project); 
     todoItems.forEach(todoItem => {
 
-        // const todoContainer = document.createElement("div");
-        // todoContainer.classList.add('todo-container');
-
-        // const detailContainer = document.createElement("div");
-        // detailContainer.classList.add('task-detail-container');
-       
         const todoListItem = document.createElement("li");
         todoListItem.classList.add('todo-list-item');
-
-        // Check box
-        const completedCheckbox = document.createElement("input");
-        completedCheckbox.classList.add('completed-checkbox');
-        completedCheckbox.type = 'checkbox';
-        completedCheckbox.addEventListener('change', function () {
-            if (completedCheckbox.checked) {
-            // Add formatting for completed state
-                completeTask(completedCheckbox, todoDescription, taskDate, todoItem);
-            } else {
-                // Remove formatting for completed state
-                incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem);
-            }
-        });
-
 
         // Title
         const todoTitle = document.createElement("div");
@@ -200,6 +178,29 @@ function showTodoList(project) {
             taskDeletion(currentProject, todoItem);
         })
         
+        // Check box
+        const completedCheckbox = document.createElement("input");
+        completedCheckbox.classList.add('completed-checkbox');
+        completedCheckbox.type = 'checkbox';
+        completedCheckbox.checked = todoItem.getCompleteStatus() === 'Complete';
+        if (completedCheckbox.checked) {
+            // Add formatting for completed state
+            completeTask(todoListItem, todoDescription, taskDate, todoItem);
+        } else {
+            // Remove formatting for completed state
+            incompleteTask(todoListItem, todoDescription, taskDate, todoItem);
+        };
+        completedCheckbox.addEventListener('change', function () {
+            if (completedCheckbox.checked) {
+            // Add formatting for completed state
+                completeTask(todoListItem, todoDescription, taskDate, todoItem);
+            } else {
+                // Remove formatting for completed state
+                incompleteTask(todoListItem, todoDescription, taskDate, todoItem);
+            }
+            setLocalStorage();
+        });
+        
         // Edit task button
         const editTaskBtn = document.createElement("input");
         editTaskBtn.classList.add('edit-task-btn');
@@ -221,17 +222,15 @@ function showTodoList(project) {
     });
 }
 
-function completeTask(completedCheckbox, todoDescription, taskDate, todoItem) {
-    if (completedCheckbox) {
-        completedCheckbox.parentElement.classList.add('complete');
-    }
+function completeTask(todoListItem, todoDescription, taskDate, todoItem) {
+    todoListItem.classList.add('complete');
     todoDescription.classList.add('description-complete');
     taskDate.classList.add('date-complete')
     todoItem.updateCompleteStatus('Complete');
 }
 
-function incompleteTask(completedCheckbox, todoDescription, taskDate, todoItem) {
-    completedCheckbox.parentElement.classList.remove('complete');
+function incompleteTask(todoListItem, todoDescription, taskDate, todoItem) {
+    todoListItem.classList.remove('complete');
     todoDescription.classList.remove('description-complete');
     taskDate.classList.remove('date-complete');
     todoItem.updateCompleteStatus('Inomplete');
@@ -268,7 +267,6 @@ function editTodo(formDataObj) {
     currentEditTodo.updatePriority(formDataObj.priority);
     if (formDataObj.completeStatus === 'on') {
         currentEditTodo.updateCompleteStatus('Complete');
-        completeTask(null, formDataObj.description, formDataObj.dueDate, currentEditTodo);
 
     } else {
         currentEditTodo.updateCompleteStatus('Incomplete')
@@ -292,7 +290,9 @@ function projectDeletion(project) {
 
 function taskDeletion(currentProject, todoObj) {
     const todoTitle = todoObj.getTitle();
+    TodoApp.deleteTodo(currentProject, todoTitle);
     showTodoList(currentProject);
+    setLocalStorage();
 }
 
 function handleEmptyProjectList() {
@@ -390,7 +390,7 @@ function reviveFromStorage (storedProjectDict) {
         if (counter == 0) {
             showTodoList(project);
         }
-        
+
         counter += 1;
     };
 };

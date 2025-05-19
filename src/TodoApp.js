@@ -60,7 +60,6 @@ export const TodoApp = (function() {
     
     function checkIfProjectExists (projectName) {
         if (projectDict[projectName]) {
-            alert("Project name exists");
             return true
         } else {
             return false
