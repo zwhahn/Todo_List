@@ -7,8 +7,8 @@ import editIcon from '../icons/edit.svg';
 var currentProject;
 let formMode = 'Add';
 let currentEditTodo = null;
-const submitBtn = document.getElementById('task-submit-btn');
-const form = document.getElementById("new-task-form");
+const submitBtn = document.getElementById('todo-submit-btn');
+const form = document.getElementById("new-todo-form");
 const dialog = document.querySelector("dialog");
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -39,10 +39,10 @@ function addProject (newProjectName) {
     setLocalStorage();
 }
 
-const addTaskBtn = document.getElementById("add-task-btn");
-addTaskBtn.addEventListener('click', () => {
+const addTodoBtn = document.getElementById("add-todo-btn");
+addTodoBtn.addEventListener('click', () => {
     if (Object.keys(TodoApp.getAllProjects()).length === 0) {
-        alert("Create a project before creating a task")
+        alert("Create a project before creating a todo")
         return;
     }
     const dialog = document.querySelector("dialog");
@@ -50,7 +50,7 @@ addTaskBtn.addEventListener('click', () => {
     //Change form title and button text for add mode
     formMode = 'Add';
     const legend = document.querySelector('legend');
-    legend.textContent = 'New Task';
+    legend.textContent = 'New Todo';
     submitBtn.textContent = 'Add';
 
     updateModalSelectOptions();
@@ -134,10 +134,10 @@ function changeProjectTitle(project) {
     currentProject = project;
 }
 
-const taskList = document.getElementById("task-list");
+const todoList = document.getElementById("todo-list");
 function showTodoList(project) {
     // Clear todo list
-    taskList.textContent = '';
+    todoList.textContent = '';
 
     changeProjectTitle(project);
 
@@ -157,23 +157,23 @@ function showTodoList(project) {
         const todoDescription = document.createElement("div");
         todoDescription.classList.add('todo-description');
         const todoDescriptionText = document.createElement("span");
-        todoDescriptionText.classList.add('task-description-text')
+        todoDescriptionText.classList.add('todo-description-text')
         todoDescriptionText.textContent = todoItem.getDescription();
         todoDescription.appendChild(todoDescriptionText);
         
         // Date
-        const taskDate = document.createElement("div");
-        taskDate.classList.add('task-date');
-        taskDate.textContent = formatDueDate(todoItem.getDueDate());
+        const todoDate = document.createElement("div");
+        todoDate.classList.add('todo-date');
+        todoDate.textContent = formatDueDate(todoItem.getDueDate());
         
-        // Delete task button
-        const deleteTaskBtn = document.createElement("input");
-        deleteTaskBtn.classList.add('delete-task-btn');
-        deleteTaskBtn.type = 'image';
-        deleteTaskBtn.src = trashIcon;
-        deleteTaskBtn.alt = 'Delete';
-        deleteTaskBtn.addEventListener("click", () => {
-            taskDeletion(currentProject, todoItem);
+        // Delete todo button
+        const deleteTodoBtn = document.createElement("input");
+        deleteTodoBtn.classList.add('delete-todo-btn');
+        deleteTodoBtn.type = 'image';
+        deleteTodoBtn.src = trashIcon;
+        deleteTodoBtn.alt = 'Delete';
+        deleteTodoBtn.addEventListener("click", () => {
+            todoDeletion(currentProject, todoItem);
         })
         
         // Check box
@@ -183,54 +183,54 @@ function showTodoList(project) {
         completedCheckbox.checked = todoItem.getCompleteStatus() === 'Complete';
         if (completedCheckbox.checked) {
             // Add formatting for completed state
-            completeTask(todoListItem, todoDescription, taskDate, todoItem);
+            completeTodo(todoListItem, todoDescription, todoDate, todoItem);
         } else {
             // Remove formatting for completed state
-            incompleteTask(todoListItem, todoDescription, taskDate, todoItem);
+            incompleteTodo(todoListItem, todoDescription, todoDate, todoItem);
         };
         completedCheckbox.addEventListener('change', function () {
             if (completedCheckbox.checked) {
             // Add formatting for completed state
-                completeTask(todoListItem, todoDescription, taskDate, todoItem);
+                completeTodo(todoListItem, todoDescription, todoDate, todoItem);
             } else {
                 // Remove formatting for completed state
-                incompleteTask(todoListItem, todoDescription, taskDate, todoItem);
+                incompleteTodo(todoListItem, todoDescription, todoDate, todoItem);
             }
             setLocalStorage();
         });
         
-        // Edit task button
-        const editTaskBtn = document.createElement("input");
-        editTaskBtn.classList.add('edit-task-btn');
-        editTaskBtn.type = 'Image';
-        editTaskBtn.src = editIcon;
-        editTaskBtn.alt = 'Edit';
-        editTaskBtn.addEventListener('click', () => {
-            openTaskdialogue(todoItem);
+        // Edit todo button
+        const editTodoBtn = document.createElement("input");
+        editTodoBtn.classList.add('edit-todo-btn');
+        editTodoBtn.type = 'Image';
+        editTodoBtn.src = editIcon;
+        editTodoBtn.alt = 'Edit';
+        editTodoBtn.addEventListener('click', () => {
+            openTododialogue(todoItem);
         })
         
         todoListItem.appendChild(completedCheckbox);
         todoListItem.appendChild(todoTitle);
         todoListItem.appendChild(todoDescription);
-        todoListItem.appendChild(taskDate);
-        todoListItem.appendChild(editTaskBtn);
-        todoListItem.appendChild(deleteTaskBtn);
-        taskList.appendChild(todoListItem);
+        todoListItem.appendChild(todoDate);
+        todoListItem.appendChild(editTodoBtn);
+        todoListItem.appendChild(deleteTodoBtn);
+        todoList.appendChild(todoListItem);
 
     });
 }
 
-function completeTask(todoListItem, todoDescription, taskDate, todoItem) {
+function completeTodo(todoListItem, todoDescription, todoDate, todoItem) {
     todoListItem.classList.add('complete');
     todoDescription.classList.add('description-complete');
-    taskDate.classList.add('date-complete')
+    todoDate.classList.add('date-complete')
     todoItem.updateCompleteStatus('Complete');
 }
 
-function incompleteTask(todoListItem, todoDescription, taskDate, todoItem) {
+function incompleteTodo(todoListItem, todoDescription, todoDate, todoItem) {
     todoListItem.classList.remove('complete');
     todoDescription.classList.remove('description-complete');
-    taskDate.classList.remove('date-complete');
+    todoDate.classList.remove('date-complete');
     todoItem.updateCompleteStatus('Inomplete');
 }
 
@@ -286,7 +286,7 @@ function projectDeletion(project) {
     showTodoList(currentProject);
 }
 
-function taskDeletion(currentProject, todoObj) {
+function todoDeletion(currentProject, todoObj) {
     const todoTitle = todoObj.getTitle();
     TodoApp.deleteTodo(currentProject, todoTitle);
     showTodoList(currentProject);
@@ -300,17 +300,17 @@ function handleEmptyProjectList() {
     showProjectList();
 }
 
-function openTaskdialogue(todoObj) {
+function openTododialogue(todoObj) {
     const dialog = document.querySelector("dialog")
     formMode = 'Edit';
     currentEditTodo = todoObj;
     const legend = document.querySelector('legend');
 
     //Change form title and button text for edit mode
-    legend.textContent = 'Edit Task';
+    legend.textContent = 'Edit Todo';
     submitBtn.textContent = 'Save Changes';
 
-    //Populate form with current task data
+    //Populate form with current todo data
     form.title.value = todoObj.getTitle();
     form.description.value = todoObj.getDescription();
     form.dueDate.value = todoObj.getDueDate();

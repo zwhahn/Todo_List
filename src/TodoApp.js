@@ -95,7 +95,7 @@ export const TodoApp = (function() {
     function deleteTodo (projectName, todoTitle) {
         // Check if project exists
         if (checkIfProjectExists(projectName)) {
-            // Filter out tasks by name
+            // Filter out todos by name
             projectDict[projectName] = projectDict[projectName].filter(todo => todo.getTitle() !== todoTitle);
             return projectDict[projectName];
         }

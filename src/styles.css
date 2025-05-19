@@ -1,10 +1,10 @@
 :root {
-    --main-task-bg: #fdd85d;
+    --main-todo-bg: #fdd85d;
     --main-project-bg: #fdc921;
-    --completed-task-bg: #cc5803;
-    --completed-task-font-color: #ffc971;
+    --completed-todo-bg: #cc5803;
+    --completed-todo-font-color: #ffc971;
     font-family: Arial, Helvetica, sans-serif;
-    --task-left-padding: 40px;
+    --todo-left-padding: 40px;
   }
   
 
@@ -27,7 +27,7 @@ h1 {
 }
 
 .main>h1 {
-    padding-left: var(--task-left-padding);
+    padding-left: var(--todo-left-padding);
 }
 
 .layout {
@@ -46,18 +46,18 @@ h1 {
 .main {
     display: flex;
     flex-direction: column;
-    background-color: var(--main-task-bg);
+    background-color: var(--main-todo-bg);
 }
 
-#project-list, #task-list {
+#project-list, #todo-list {
     display: grid;
     padding: 0px 0px 0px 0px;
 }
 
-#task-list {
+#todo-list {
     row-gap: 0.5em;
     width: 100%;
-    padding: 0px var(--task-left-padding);
+    padding: 0px var(--todo-left-padding);
 }
 
 .project-list-item, .todo-list-item {
@@ -115,7 +115,7 @@ h1 {
     min-width: 0;
 }
 
-.task-description-text {
+.todo-description-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -124,19 +124,19 @@ h1 {
 }
 
 .complete{
-    color: var(--completed-task-font-color);
-    background-color: var(--completed-task-bg);
+    color: var(--completed-todo-font-color);
+    background-color: var(--completed-todo-bg);
 }
 
 .description-complete, .date-complete {
-    color: var(--completed-task-font-color);
+    color: var(--completed-todo-font-color);
 }
 
 .complete:hover  {
     background-color: #e2711d;
 }
 
-.task-date {
+.todo-date {
     display: flex;
     align-items: center;
     font-size: 0.8em;
@@ -159,7 +159,7 @@ h1 {
     stroke-width: 5px;
 }
 
-#add-project-btn, #add-task-btn, #task-submit-btn {
+#add-project-btn, #add-todo-btn, #todo-submit-btn {
     all: unset;
     height: 2em;
     background-color: rgba(100, 0, 0, 0.1);
@@ -174,32 +174,32 @@ h1 {
     font-size: 1.3em;
 }
 
-.delete-task-btn, .edit-task-btn {
+.delete-todo-btn, .edit-todo-btn {
     display: flex;
     align-self: center;
     height: 1.5em;
 }
 
-.delete-task-btn {
+.delete-todo-btn {
     margin-right: 20px;
 }
 
-.edit-task-btn {
+.edit-todo-btn {
     margin-right: 10px;
 }
 
-#add-task-btn {
+#add-todo-btn {
     align-self: flex-start;
-    margin-left: var(--task-left-padding);
+    margin-left: var(--todo-left-padding);
     margin-top: 0.5em;
 }
 
-#task-submit-btn {
+#todo-submit-btn {
     display: block;
     margin: 10px auto 0px auto;
 }
 
-#add-project-btn:hover, #add-task-btn:hover, #task-submit-btn:hover {
+#add-project-btn:hover, #add-todo-btn:hover, #todo-submit-btn:hover {
     background-color: rgba(100, 0, 0, 0.3);
 }
 
@@ -207,7 +207,7 @@ h1 {
 dialog {
     margin: auto;
     width: clamp(500px, 500px, 100%);
-    background-color: var(--main-task-bg);
+    background-color: var(--main-todo-bg);
     border-radius: 10px;
     border: black 2px solid;
 }
