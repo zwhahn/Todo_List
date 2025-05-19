@@ -14,7 +14,6 @@ const dialog = document.querySelector("dialog");
 document.addEventListener("DOMContentLoaded", function () {
     readLocalStorage();
     if (TodoApp.getAllProjects()) {
-        console.log(`There is local storage, ${TodoApp.getAllProjects()}`);
         showProjectList();
     }
 });
@@ -97,7 +96,6 @@ function modalSubmitBtn(formMode, form, dialog, currentEditTodo) {
 const projectList = document.getElementById("project-list");
 function showProjectList() {
 
-    console.log("Showing projects");
     // Clear project list
     projectList.textContent = '';
 
@@ -355,7 +353,6 @@ function setLocalStorage () {
         }
     }
 
-    console.table(rawData)
     localStorage.setItem("projectDict", JSON.stringify(rawData));
 }
 
